@@ -1,14 +1,12 @@
 import { Router } from 'express';
+import { createOrder } from '../useCases/orders/createOrder';
+import { listOrders } from '../useCases/orders/listOrders';
 
 const route = Router();
 
-route.get('/', (req, res) => {
-  res.send('Getting orders');
-});
+route.get('/', listOrders);
 
-route.post('/', (req, res) => {
-  res.send('Creating order');
-});
+route.post('/', createOrder);
 
 route.patch('/:orderId', (req, res) => {
   res.send('Updating status order by id');

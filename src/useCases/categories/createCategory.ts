@@ -14,5 +14,5 @@ export async function createCategory(req: Request, res: Response) {
 
   const category = await Category.create({ name, icon });
 
-  return res.json(category);
+  return res.status(201).json(category);
 }
