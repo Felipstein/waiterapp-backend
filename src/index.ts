@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { app } from './app/app';
+import { app } from './app';
 
 const port = process.env.PORT || 3333;
 const host = process.env.HOST_APP || 'http://localhost';
