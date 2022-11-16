@@ -1,6 +1,23 @@
+import mongoose from 'mongoose';
 import { app } from './app/app';
 
 const port = process.env.PORT || 3333;
 const host = process.env.HOST_APP || 'http://localhost';
+const dbURI = process.env.DB_CONNECT;
 
-app.listen(port, () => console.log(`🌎️ Server is running on ${host}:${port}`));
+if (dbURI) {
+
+  mongoose.connect(dbURI)
+    .then(() => {
+      console.log('🔌 MongoDB connected');
+      app.listen(port, () => console.log(`🌎️ Server is running on ${host}:${port}`));
+    })
+    .catch((err: Error) => {
+      console.log(`${err.name}: Falha ao conectar com MongoDB: ${err.message}`);
+      console.error(err.stack);
+    });
+
+} else {
+  console.error('Não há conexão com banco de dados definido.');
+}
+
