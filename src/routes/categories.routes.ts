@@ -5,10 +5,16 @@ import { listProductsByCategoryIdFactory } from '../modules/Category/listProduct
 
 const route = Router();
 
-route.get('/', listCategoriesFactory().controller.handle);
+route.get('/', (req, res) => {
+  return listCategoriesFactory().controller.handle(req, res);
+});
 
-route.post('/', createCategoryFactory().controller.handle);
+route.post('/', (req, res) => {
+  return createCategoryFactory().controller.handle(req, res);
+});
 
-route.get('/:categoryId/products', listProductsByCategoryIdFactory().controller.handle);
+route.get('/:categoryId/products', (req, res) => {
+  return listProductsByCategoryIdFactory().controller.handle(req, res);
+});
 
 export { route as categoryRoutes };
