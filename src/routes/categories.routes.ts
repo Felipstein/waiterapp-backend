@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createCategory } from '../useCases/categories/createCategory';
+import { createCategoryFactory } from '../modules/Category/createCategory';
 import { listCategories } from '../useCases/categories/listCategories';
 import { listProductsByCategory } from '../useCases/categories/listProductsByCategory';
 
@@ -7,7 +7,7 @@ const route = Router();
 
 route.get('/', listCategories);
 
-route.post('/', createCategory);
+route.post('/', createCategoryFactory().controller.handle);
 
 route.get('/:categoryId/products', listProductsByCategory);
 

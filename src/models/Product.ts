@@ -4,7 +4,7 @@ export interface IProduct {
   name: string;
   description: string;
   imagePath: string;
-  price: string;
+  price: number;
   ingredients: {
     name: string;
     icon: string;
