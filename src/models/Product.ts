@@ -1,5 +1,17 @@
 import { model, Schema } from 'mongoose';
 
+export interface IProduct {
+  name: string;
+  description: string;
+  imagePath: string;
+  price: string;
+  ingredients: {
+    name: string;
+    icon: string;
+  }[];
+  category: Schema.Types.ObjectId;
+}
+
 export const Product = model('Product', new Schema({
   name: {
     type: String,

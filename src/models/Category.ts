@@ -1,6 +1,11 @@
 import { Schema, model } from 'mongoose';
 
-export const Category = model('Category', new Schema({
+export interface ICategory {
+  name: string;
+  icon: string;
+}
+
+export const Category = model<ICategory>('Category', new Schema<ICategory>({
   name: {
     type: String,
     required: true,
