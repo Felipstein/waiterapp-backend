@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { isValidObjectId } from 'mongoose';
 
 import { Order } from '../../models/Order';
 
@@ -11,6 +12,14 @@ export async function createOrder(req: Request, res: Response) {
 
   if (!products) {
     return res.status(400).json({ message: 'Produtos são obrigatórios.' });
+  }
+
+  if (!Array.isArray(products)) {
+    return res.status(400).json({ message: 'Produtos inválidos.' });
+  }
+
+  if (products.some(({ product }) => !isValidObjectId(product))) {
+    return res.status(400).json({ message: 'Produtos inválidos.' });
   }
 
   const order = await Order.create({
