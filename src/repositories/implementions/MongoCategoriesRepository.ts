@@ -8,6 +8,10 @@ export class MongoCategoriesRepository implements ICategoriesRepository {
     return await Category.find();
   }
 
+  async findById(id: string): Promise<ICategory[] | null> {
+    return await Category.findById(id);
+  }
+
   async create({ name, icon }: ICategory): Promise<ICategory | null> {
     const category = await Category.create({ name, icon });
 
