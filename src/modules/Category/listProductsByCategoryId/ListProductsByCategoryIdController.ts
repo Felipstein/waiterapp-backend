@@ -9,7 +9,7 @@ export class ListProductsByCategoryController {
   async handle(req: Request, res: Response): Promise<Response> {
     const { categoryId } = req.params;
 
-    const categories = this.listProductsByCategoryUseCases.execute(categoryId);
+    const categories = await this.listProductsByCategoryUseCases.execute(categoryId);
 
     return res.json(categories);
   }
