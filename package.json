@@ -5,7 +5,9 @@
   "repository": "https://github.com/Felipstein/waiterapp-backend.git",
   "author": "Felipstein <luisfelipe-oliveira@outlook.com.br>",
   "scripts": {
-    "dev": "tsnd --respawn --transpile-only --exit-child --ignore-watch node_modules src/index.ts"
+    "build": "tsc",
+    "dev": "tsnd --respawn --transpile-only --exit-child --ignore-watch node_modules src/index.ts",
+    "start": "node dist"
   },
   "license": "MIT",
   "devDependencies": {
