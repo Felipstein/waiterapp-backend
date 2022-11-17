@@ -1,5 +1,7 @@
+import { MongoProductsRepository } from './implementions/MongoProductsRepository';
 import { MongoCategoriesRepository } from './implementions/MongoCategoriesRepository';
 
-const currentRepository = new MongoCategoriesRepository();
+const currentCategoriesRepository = new MongoCategoriesRepository();
+const currentProductsRepository = new MongoProductsRepository();
 
-export { currentRepository };
+export { currentCategoriesRepository, currentProductsRepository };

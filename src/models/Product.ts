@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema, Types } from 'mongoose';
 
 export interface IProduct {
   name: string;
@@ -9,7 +9,7 @@ export interface IProduct {
     name: string;
     icon: string;
   }[];
-  category: Schema.Types.ObjectId;
+  category: Types.ObjectId;
 }
 
 export const Product = model('Product', new Schema({

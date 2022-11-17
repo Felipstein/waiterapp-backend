@@ -1,11 +1,11 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema, Types } from 'mongoose';
 
 export interface IOrder {
   table: string;
   status?: 'WAITING' | 'IN_PRODUCTION' | 'DONE';
   createdAt?: Date;
   products: {
-    product: Schema.Types.ObjectId;
+    product: Types.ObjectId;
     quantity?: number;
   }[];
 }

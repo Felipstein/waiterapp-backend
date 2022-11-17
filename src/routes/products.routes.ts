@@ -2,14 +2,15 @@ import { Router } from 'express';
 import multer from 'multer';
 
 import multerConfig from '../config/multer';
-
+import { listProductsFactory } from '../modules/Product/listProducts';
 import { createProduct } from '../useCases/products/createProduct';
-import { listProducts } from '../useCases/products/listProducts';
 
 const route = Router();
 const upload = multer(multerConfig);
 
-route.get('/', listProducts);
+route.get('/', (req, res) => {
+  return listProductsFactory().controller.handle(req, res);
+});
 
 route.post('/', upload.single('image'), createProduct);
 

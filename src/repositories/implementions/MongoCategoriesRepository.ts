@@ -17,15 +17,7 @@ export class MongoCategoriesRepository implements ICategoriesRepository {
   async listProductsByCategoryId(categoryId: string): Promise<IProduct[]> {
     const products = await Product.find().where('category').equals(categoryId);
 
-    return products.map(product => ({
-      name: product.name,
-      description: product.description,
-      imagePath: product.imagePath,
-      price: product.price,
-      ingredients: product.ingredients,
-      category: product.category,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    }) as IProduct | any);
+    return products;
   }
 
 }
