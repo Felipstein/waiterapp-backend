@@ -4,6 +4,7 @@ import { APIError } from './../../../errors/APIError';
 import { IProduct } from '../../../models/Product';
 import { IProductsRepository } from './../../../repositories/IProductsRepository';
 import { CreateProductDTO } from './CreateProductDTO';
+import { parse } from 'dotenv';
 
 export class CreateProductUseCases {
 
@@ -47,7 +48,7 @@ export class CreateProductUseCases {
       description,
       imagePath: image.filename,
       price,
-      ingredients: ingredients || [],
+      ingredients,
       category,
     });
 

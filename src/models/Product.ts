@@ -12,7 +12,7 @@ export interface IProduct {
   category: Types.ObjectId;
 }
 
-export const Product = model('Product', new Schema({
+export const Product = model<IProduct>('Product', new Schema<IProduct>({
   name: {
     type: String,
     required: true,
