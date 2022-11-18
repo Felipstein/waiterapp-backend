@@ -9,7 +9,7 @@ export class MongoProductsRepository implements IProductsRepository {
     return products;
   }
 
-  async create({ name, description, imagePath, price, ingredients, category }: IProduct): Promise<IProduct> {
+  async create({ name, description, imagePath, price, ingredients, category }: IProduct): Promise<IProduct | null> {
     const product = await Product.create({ name, description, imagePath, price, ingredients, category });
 
     return product;
