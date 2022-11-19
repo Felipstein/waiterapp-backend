@@ -9,10 +9,20 @@ export class MongoProductsRepository implements IProductsRepository {
     return products;
   }
 
+  async listById(productId: string): Promise<IProduct | null> {
+    const product = await Product.findById(productId);
+
+    return product;
+  }
+
   async create({ name, description, imagePath, price, ingredients, category }: IProduct): Promise<IProduct | null> {
     const product = await Product.create({ name, description, imagePath, price, ingredients, category });
 
     return product;
+  }
+
+  async delete(productId: string): Promise<void> {
+    await Product.findByIdAndRemove(productId);
   }
 
 }
