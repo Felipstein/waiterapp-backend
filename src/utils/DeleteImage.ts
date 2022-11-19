@@ -1,23 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { isValidObjectId } from 'mongoose';
-import aws from 'aws-sdk';
+import { DeleteObjectCommand } from '@aws-sdk/client-s3';
 import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
 
+import { s3Client } from './../libs/s3Client';
 import { ImageDeleteError } from '../errors/ImageDeleteError';
 import { IProductsRepository } from '../repositories/IProductsRepository';
 import EnvProvider from './EnvProvider';
 
 export class DeleteImage {
 
-  private readonly s3;
-
   constructor(
     private productsRepository: IProductsRepository,
-  ) {
-    this.s3 = new aws.S3();
-  }
+  ) { }
 
   private async notSafeExecute(productId: string) {
     if (!isValidObjectId(productId)) {
@@ -58,19 +55,12 @@ export class DeleteImage {
       throw new ImageDeleteError('image of document/product not exists');
     }
 
-
-
     const unlink = promisify(fs.unlink);
     await unlink(image);
   }
 
-  private deleteS3Image(imageName: string) {
-    console.log(imageName);
-
-    this.s3.deleteObject({
-      Bucket: EnvProvider.aws.bucketName,
-      Key: imageName,
-    });
+  private async deleteS3Image(imageName: string) {
+    await s3Client.send(new DeleteObjectCommand({ Bucket: EnvProvider.aws.bucketName, Key: imageName }));
   }
 
 }
