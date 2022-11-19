@@ -1,6 +1,18 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema, Types } from 'mongoose';
 
-export const Product = model('Product', new Schema({
+export interface IProduct {
+  name: string;
+  description: string;
+  imagePath: string;
+  price: number;
+  ingredients?: {
+    name: string;
+    icon: string;
+  }[];
+  category: Types.ObjectId;
+}
+
+export const Product = model<IProduct>('Product', new Schema<IProduct>({
   name: {
     type: String,
     required: true,

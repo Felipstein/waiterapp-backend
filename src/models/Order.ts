@@ -1,6 +1,16 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema, Types } from 'mongoose';
 
-export const Order = model('Order', new Schema({
+export interface IOrder {
+  table: string;
+  status?: 'WAITING' | 'IN_PRODUCTION' | 'DONE';
+  createdAt?: Date;
+  products: {
+    product: Types.ObjectId;
+    quantity?: number;
+  }[];
+}
+
+export const Order = model<IOrder>('Order', new Schema<IOrder>({
   table: {
     type: String,
     required: true,

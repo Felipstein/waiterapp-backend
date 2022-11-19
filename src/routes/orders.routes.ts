@@ -1,17 +1,25 @@
 import { Router } from 'express';
-import { changeOrderStatus } from '../useCases/orders/changeOrderStatus';
-import { createOrder } from '../useCases/orders/createOrder';
-import { deleteOrder } from '../useCases/orders/deleteOrder';
-import { listOrders } from '../useCases/orders/listOrders';
+import { changeOrderStatusFactory } from '../modules/Orders/changeOrderStatus';
+import { createOrderFactory } from '../modules/Orders/createOrder';
+import { deleteOrderFactory } from '../modules/Orders/deleteOrder';
+import { listOrdersFactory } from '../modules/Orders/listOrders';
 
 const route = Router();
 
-route.get('/', listOrders);
+route.get('/', (req, res) => {
+  return listOrdersFactory().controller.handle(req, res);
+});
 
-route.post('/', createOrder);
+route.post('/', (req, res) => {
+  return createOrderFactory().controller.handle(req, res);
+});
 
-route.patch('/:orderId', changeOrderStatus);
+route.patch('/:orderId', (req, res) => {
+  return changeOrderStatusFactory().controller.handle(req, res);
+});
 
-route.delete('/:orderId', deleteOrder);
+route.delete('/:orderId', (req, res) => {
+  return deleteOrderFactory().controller.handle(req, res);
+});
 
 export { route as orderRoutes };
