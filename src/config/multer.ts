@@ -1,5 +1,8 @@
 import multer from 'multer';
+import multerS3 from 'multer-s3';
 import path from 'path';
+import { S3Client } from '@aws-sdk/client-s3';
+import EnvProvider from '../utils/EnvProvider';
 
 const storageType = {
   local: multer.diskStorage({
@@ -12,12 +15,29 @@ const storageType = {
       callback(null, fileName);
     },
   }),
+
+  s3: multerS3({
+    s3: new S3Client({
+      region: EnvProvider.aws.region,
+      credentials: {
+        accessKeyId: EnvProvider.aws.accessKeyId,
+        secretAccessKey: EnvProvider.aws.secretAccessKey,
+      },
+    }),
+    bucket: EnvProvider.aws.bucketName,
+    contentType: multerS3.AUTO_CONTENT_TYPE,
+    acl: 'public-read',
+    key(req, file, callback) {
+      const fileName = `${Date.now()}-${file.originalname}`;
+      callback(null, fileName);
+    },
+  }),
 };
 
 export default {
   dest: path.resolve(__dirname, '..', '..', 'uploads'),
 
-  storage: storageType.local,
+  storage: storageType[EnvProvider.storageType],
 
   limits: {
     files: 1,
