@@ -15,7 +15,7 @@ export class CreateOrderUseCases {
       throw new APIError(400, 'Mesa é obrigatória.');
     }
 
-    if (!products && !Array.isArray(products)) {
+    if (!products || !Array.isArray(products)) {
       throw new APIError(400, 'Produtos são obrigatórios.');
     }
 

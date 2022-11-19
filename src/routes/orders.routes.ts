@@ -1,7 +1,7 @@
 import { Router } from 'express';
+import { changeOrderStatusFactory } from '../modules/orders/changeOrderStatus';
 import { createOrderFactory } from '../modules/orders/createOrder';
 import { listOrdersFactory } from '../modules/orders/listOrders';
-import { changeOrderStatus } from '../useCases/orders/changeOrderStatus';
 import { deleteOrder } from '../useCases/orders/deleteOrder';
 
 const route = Router();
@@ -14,7 +14,9 @@ route.post('/', (req, res) => {
   return createOrderFactory().controller.handle(req, res);
 });
 
-route.patch('/:orderId', changeOrderStatus);
+route.patch('/:orderId', (req, res) => {
+  return changeOrderStatusFactory().controller.handle(req, res);
+});
 
 route.delete('/:orderId', deleteOrder);
 
