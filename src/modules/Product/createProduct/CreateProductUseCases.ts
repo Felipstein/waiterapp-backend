@@ -46,7 +46,7 @@ export class CreateProductUseCases {
     const product = await this.productsRepository.create({
       name,
       description,
-      imagePath: image.filename,
+      imagePath: image.key || image.filename,
       price,
       ingredients,
       category,

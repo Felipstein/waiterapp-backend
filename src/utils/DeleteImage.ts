@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { isValidObjectId } from 'mongoose';
+import { DeleteObjectCommand } from '@aws-sdk/client-s3';
 import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
 
+import { s3Client } from './../libs/s3Client';
 import { ImageDeleteError } from '../errors/ImageDeleteError';
 import { IProductsRepository } from '../repositories/IProductsRepository';
+import EnvProvider from './EnvProvider';
 
 export class DeleteImage {
 
@@ -23,14 +26,11 @@ export class DeleteImage {
       throw new ImageDeleteError('document/product not found in collection/table');
     }
 
-    const image = path.resolve(__dirname, '..', '..', 'uploads', product.imagePath);
-
-    if (!fs.existsSync(image)) {
-      throw new ImageDeleteError('image of document/product not exists');
+    if (EnvProvider.storageType === 'local') {
+      await this.deleteLocalImage(product.imagePath);
+    } else {
+      this.deleteS3Image(product.imagePath);
     }
-
-    const unlink = promisify(fs.unlink);
-    await unlink(image);
   }
 
   async execute(productId: string) {
@@ -46,6 +46,21 @@ export class DeleteImage {
 
       throw err;
     }
+  }
+
+  private async deleteLocalImage(imageName: string) {
+    const image = path.resolve(__dirname, '..', '..', 'uploads', imageName);
+
+    if (!fs.existsSync(image)) {
+      throw new ImageDeleteError('image of document/product not exists');
+    }
+
+    const unlink = promisify(fs.unlink);
+    await unlink(image);
+  }
+
+  private async deleteS3Image(imageName: string) {
+    await s3Client.send(new DeleteObjectCommand({ Bucket: EnvProvider.aws.bucketName, Key: imageName }));
   }
 
 }
