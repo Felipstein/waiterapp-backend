@@ -1,8 +1,9 @@
 import { isValidObjectId } from 'mongoose';
 import { APIError } from './../../../errors/APIError';
 import { CreateOrderDTO } from './CreateOrderDTO';
-import { IOrder, Order } from '../../../models/Order';
 import { IOrdersRepository } from '../../../repositories/IOrdersRepository';
+import { io } from '../../../app';
+import { IOrder, Order } from '../../../models/Order';
 
 export class CreateOrderUseCases {
 
@@ -24,9 +25,10 @@ export class CreateOrderUseCases {
       throw new APIError(400, 'Produto(s) inválido(s).');
     }
 
-    const order = await Order.create({
-      table, products,
-    });
+    const order = await Order.create({ table, products });
+    const orderDetails = await order.populate('products.product');
+
+    io.emit('orders@new', orderDetails);
 
     return order;
   }

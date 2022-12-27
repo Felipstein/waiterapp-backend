@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { app } from './app';
+import { server } from './app';
 
 const port = process.env.PORT || 3333;
 const host = process.env.HOST_APP || 'http://localhost';
@@ -10,7 +10,7 @@ if (dbURI) {
   mongoose.connect(dbURI)
     .then(() => {
       console.log('🔌 MongoDB connected');
-      app.listen(port, () => console.log(`🌎️ Server is running on ${host}:${port}`));
+      server.listen(port, () => console.log(`🌎️ Server is running on ${host}:${port}`));
     })
     .catch((err: Error) => {
       console.log(`${err.name}: Falha ao conectar com MongoDB: ${err.message}`);

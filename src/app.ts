@@ -1,4 +1,6 @@
+import http from 'node:http';
 import express from 'express';
+import { Server } from 'socket.io';
 import path from 'path';
 import 'dotenv/config';
 import 'express-async-errors';
@@ -8,6 +10,12 @@ import { errorHandlers } from './middlewares/errorsHandler';
 import { verifyS3Credentials } from './middlewares/verifyS3Credentials';
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
+
+io.on('connect', () => {
+  console.log('Client connected');
+});
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', process.env.WEB_URI!);
@@ -25,4 +33,4 @@ app.use(routes);
 
 app.use(errorHandlers);
 
-export { app };
+export { app, server, io };
