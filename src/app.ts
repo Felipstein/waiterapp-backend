@@ -9,6 +9,14 @@ import { verifyS3Credentials } from './middlewares/verifyS3Credentials';
 
 const app = express();
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', process.env.WEB_URI!);
+  res.setHeader('Access-Control-Allow-Methods', '*');
+  res.setHeader('Access-Control-Allow-Headers', '*');
+
+  next();
+});
+
 app.use(express.json());
 app.use('/uploads', express.static(path.resolve(__dirname, '..', 'uploads')));
 app.use(verifyS3Credentials);
