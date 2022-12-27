@@ -7,7 +7,8 @@ export class ChangeOrderStatusController {
   ) { }
 
   async handle(req: Request, res: Response): Promise<Response> {
-    const { orderId, status } = req.body;
+    const { orderId } = req.params;
+    const { status } = req.body;
 
     await this.changeOrderStatusUseCases.execute({ orderId, status });
 

@@ -1,6 +1,4 @@
-import { Types } from 'mongoose';
-
 export interface ChangeOrderStatusDTO {
-  orderId: Types.ObjectId;
+  orderId: string;
   status: 'WAITING' | 'IN_PRODUCTION' | 'DONE';
 }

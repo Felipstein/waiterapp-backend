@@ -22,7 +22,7 @@ export class ChangeOrderStatusUseCases {
       throw new APIError(400, 'Status inválido.');
     }
 
-    await Order.findByIdAndUpdate(orderId, { status });
+    await this.ordersRepository.changeStatus(orderId, status);
   }
 
 }
